@@ -91,6 +91,7 @@ proc main {argv} {
 		# Undocumented options
 		option-checking=1
 		nopager
+		silent-rules
 		quiet
 		timing
 		conf:
