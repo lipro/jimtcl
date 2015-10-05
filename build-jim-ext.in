@@ -22,6 +22,7 @@ proc readfile {filename {default_value ""}} {
 	return $result
 }
 
+set prefix "@prefix@"
 set linker "@CC@"
 set testmod 1
 set install 0
@@ -107,7 +108,7 @@ if {$static} {
 puts "Building $target from $sources\n"
 
 # Now add the standard location after any user include paths
-lappend includepaths -I@prefix@/include
+lappend includepaths -I"@includedir@"
 
 set CPPFLAGS "-D_GNU_SOURCE"
 
@@ -190,7 +191,7 @@ if {$static} {
 	}
 } else {
 	# Add the standard location after any user lib paths
-	lappend libpaths -L@prefix@/lib
+	lappend libpaths -L"@libdir@"
 
 	set link "$linker @CFLAGS@ @LDFLAGS@ $shobj_ldflags $libpaths $opts -o $target $objs $ljim @LIBS@ $libs"
 
@@ -241,7 +242,7 @@ if {$static} {
 			load ./$target
 		}
 		if {$install} {
-			set dest [env DESTDIR ""]@prefix@/lib/jim
+			set dest "[env DESTDIR ""]@libdir@/jim"
 			puts "Install: $target => $dest"
 			file mkdir $dest
 			file copy $target $dest/$target
